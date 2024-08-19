@@ -21,7 +21,6 @@ app.post('/submit', (req, res) => {
     res.redirect('/display');
 });
 
-
 app.get('/display', (req, res) => {
     if (!formData.name) {
         return res.send('No data available.');
