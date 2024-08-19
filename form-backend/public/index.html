@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2{
+            font-size: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            color: rgb(128, 187, 60);
+        }
+        form{
+            width: 400px;
+            margin:0 auto;
+            padding: 20px;
+            border : 1px solid #ccc;
+            border-radius:10px;
+            background-color: #f9f9f9;
+        }
+        label{
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"], input[type="date"]{
+            width: 100%;
+            padding:8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"]{
+            width:100%;
+            padding: 10px;
+            background-color: rgb(37, 187, 37);
+            color: white;
+            border:none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover{
+            background-color:rgb(30, 95, 17); ;
+        }
+        
+    </style>
+</head>
+<body>
+    <h2>Validate Form</h2>
+    <form id="userForm" action="/submit" method="POST" onsubmit="return validateForm()">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+    
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" readonly>
+    
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+
+        function calculateAge(dob){
+          const today = new Date();
+          const birth_date = new Date(dob);
+          let age = today.getFullYear()-birth_date.getFullYear();
+          const monthDifference = today.getMonth() - birth_date.getMonth();
+          if(monthDifference<0 || (monthDifference===0 && today.getDate<birth_date.getDate)){
+            age-- ;
+          }
+          return age;
+        }
+        function validateForm(){
+            const dob = document.getElementById('dob').value;
+            const age =  calculateAge(dob);
+
+            if(age<18){
+                alert('You must be atleat 18 years old to submit the form');
+                return false;
+            }
+            Document.getElementById('age').value = age;
+            return true;
+        }
+        document.getElementById('dob').addEventListener('change', function() {
+    const dob = this.value;
+    const age = calculateAge(dob);
+    document.getElementById('age').value = age >= 0 ? age : '';
+});
+    </script>
+</body>
+</html>
